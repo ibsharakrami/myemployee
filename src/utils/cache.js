@@ -2,20 +2,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getFromCache = async (key) => {
   try {
-    const value = await AsyncStorage.getItem(key);
-    if (value !== null) {
-      return JSON.parse(value);
-    }
+    const cachedData = await AsyncStorage.getItem(key);
+    return cachedData ? JSON.parse(cachedData) : null;
   } catch (error) {
-    console.error('Error getting data from cache', error);
+    console.error('Error getting data from cache:', error);
+    return null;
   }
-  return null;
 };
 
-export const saveToCache = async (key, value) => {
+export const saveToCache = async (key, data) => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(value));
+    await AsyncStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
-    console.error('Error saving data to cache', error);
+    console.error('Error saving data to cache:', error);
   }
 };
